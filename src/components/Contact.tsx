@@ -2,7 +2,6 @@ import { useState, useRef, FormEvent } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
-import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
 import { SectionWrapper } from "./SectionWrapper";
 import { socialLinks } from "../constants";
 

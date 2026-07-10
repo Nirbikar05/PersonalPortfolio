@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 import "./App.css";
 import { useState, useRef, FormEvent } from "react";
 import emailjs from "@emailjs/browser";
-import { FaFacebook, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
 import { socialLinks } from "./constants";
 import { motion } from "framer-motion";
 

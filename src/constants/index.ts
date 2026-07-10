@@ -1,5 +1,5 @@
-import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaDatabase, FaGithub, FaJava, FaLinux, FaAws, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-import { SiJavascript, SiTypescript, SiTailwindcss, SiExpress, SiMongodb, SiGit, SiSpringboot, SiMysql, SiPostman } from "react-icons/si";
+import { FaGithub, FaJava, FaLinux, FaAws, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { SiMongodb, SiGit, SiSpringboot, SiMysql, SiPostman } from "react-icons/si";
 
 export const navLinks = [
   {
