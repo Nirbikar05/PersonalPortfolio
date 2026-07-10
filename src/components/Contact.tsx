@@ -139,7 +139,8 @@ const ContactContent = () => {
     const sendEmailWithBackend = async () => {
       console.log("Attempting to send email via backend API...");
       try {
-        const apiUrl = "http://localhost:8081/api/contact";
+        const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8081";
+        const apiUrl = `${apiBaseUrl}/api/contact`;
         console.log(`Sending POST request to: ${apiUrl}`, {
           name: form.name,
           email: form.email,
@@ -153,8 +154,7 @@ const ContactContent = () => {
             "Accept": "application/json",
             "Origin": window.location.origin
           },
-          mode: "cors", // Explicitly set CORS mode
-          credentials: "include", // Include credentials if needed
+          mode: "cors",
           body: JSON.stringify({
             name: form.name,
             email: form.email,
