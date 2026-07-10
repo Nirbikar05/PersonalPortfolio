@@ -1,0 +1,6 @@
+# Copy this file to application-local.properties for local development.
+# application-local.properties is gitignored and will not be pushed to GitHub.
+
+spring.mail.username=your-email@gmail.com
+spring.mail.password=your-gmail-app-password
+email.recipient=your-recipient@gmail.com

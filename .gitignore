@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+server/src/main/resources/application-local.properties
+
+# Java / Maven
+server/target/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
