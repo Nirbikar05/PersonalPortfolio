@@ -1,0 +1,39 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.padding {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.padding-x {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.padding-y {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.blue-text-gradient {
+  background: linear-gradient(to right, #00d2ff, #3a7bd5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.green-text-gradient {
+  background: linear-gradient(to right, #11998e, #38ef7d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pink-text-gradient {
+  background: linear-gradient(to right, #ec008c, #fc6767);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

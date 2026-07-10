@@ -1,0 +1,5 @@
+com\nirbikar\portfolioapi\service\EmailService.class
+com\nirbikar\portfolioapi\PortfolioApiApplication.class
+com\nirbikar\portfolioapi\model\EmailRequest.class
+com\nirbikar\portfolioapi\controller\EmailController.class
+com\nirbikar\portfolioapi\model\ContactForm.class
