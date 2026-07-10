@@ -1,14 +1,11 @@
 services:
   - type: web
     name: portfolio-api
-    runtime: java
+    runtime: docker
     plan: free
-    rootDir: server
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/portfolio-api-0.0.1-SNAPSHOT.jar
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
     envVars:
-      - key: JAVA_VERSION
-        value: "17"
       - key: MAIL_HOST
         value: smtp.gmail.com
       - key: MAIL_PORT
