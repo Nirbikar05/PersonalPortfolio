@@ -1,9 +1,9 @@
 import { useState, useRef, FormEvent } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import { SectionWrapper } from "./SectionWrapper";
 import { socialLinks } from "../constants";
+import { sendContactMessage } from "../utils/sendContactMessage";
 
 const ContactInfo = () => {
   return (
@@ -97,89 +97,13 @@ const ContactContent = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setFormStatus({ type: null, message: "" });
 
-    // For direct EmailJS submission without backend
-    const sendEmailWithEmailJS = () => {
-      console.log("Attempting to send email via EmailJS...");
-      
-      // Using emailjs without requiring a public key initialization
-      // This approach should work with most versions of EmailJS
-      const templateParams = {
-        from_name: form.name,
-        from_email: form.email,
-        to_name: "Nirbikar",
-        to_email: "nirbikar05@gmail.com",
-        message: form.message
-      };
-      
-      // Send the email using emailjs directly
-      emailjs.send(
-        'service_xqzyvbd',
-        'template_rznno6p',
-        templateParams
-      )
-      .then(
-        (result) => {
-          console.log('Email sent successfully via EmailJS:', result.text);
-          handleSuccess();
-        },
-        (error) => {
-          console.error('EmailJS error:', error.text);
-          handleError("EmailJS error: " + error.text);
-        }
-      );
-    };
-
-    // For backend API submission
-    const sendEmailWithBackend = async () => {
-      console.log("Attempting to send email via backend API...");
-      try {
-        const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8081";
-        const apiUrl = `${apiBaseUrl}/api/contact`;
-        console.log(`Sending POST request to: ${apiUrl}`, {
-          name: form.name,
-          email: form.email,
-          message: form.message
-        });
-        
-        const response = await fetch(apiUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Origin": window.location.origin
-          },
-          mode: "cors",
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            message: form.message,
-          }),
-        });
-
-        console.log("API Response status:", response.status);
-        
-        if (response.ok) {
-          console.log('Email sent successfully via backend API');
-          handleSuccess();
-        } else {
-          const errorText = await response.text();
-          console.error('Backend API error - Status:', response.status, 'Response:', errorText);
-          throw new Error(errorText || `Failed to send message via backend (Status: ${response.status})`);
-        }
-      } catch (error) {
-        console.error('Backend submission error:', error);
-        // If backend fails, try EmailJS as fallback
-        console.log('Attempting EmailJS as fallback...');
-        sendEmailWithEmailJS();
-      }
-    };
-
-    const handleSuccess = () => {
+    try {
+      await sendContactMessage(form);
       setFormStatus({
         type: "success",
         message: "Thank you for your message. I will get back to you soon!",
@@ -189,19 +113,16 @@ const ContactContent = () => {
         email: "",
         message: "",
       });
-      setLoading(false);
-    };
-
-    const handleError = (errorMsg: string) => {
+    } catch (error) {
+      const errorMsg =
+        error instanceof Error ? error.message : "Something went wrong";
       setFormStatus({
         type: "error",
         message: `Something went wrong. Please contact me directly at nirbikar05@gmail.com. (Error: ${errorMsg})`,
       });
+    } finally {
       setLoading(false);
-    };
-
-    // Try backend first, fall back to EmailJS
-    sendEmailWithBackend();
+    }
   };
 
   return (

@@ -4,9 +4,9 @@ import Hero from "./components/Hero";
 import Footer from "./components/Footer";
 import "./App.css";
 import { useState, useRef, FormEvent } from "react";
-import emailjs from "@emailjs/browser";
 import { socialLinks } from "./constants";
 import { motion } from "framer-motion";
+import { sendContactMessage } from "./utils/sendContactMessage";
 
 function App() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -31,47 +31,34 @@ function App() {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setFormStatus({ type: null, message: "" });
 
-    // Using emailjs for sending emails directly from the frontend
-    emailjs
-      .send(
-        "service_portfolio", // Replace with your EmailJS service ID
-        "template_contact", // Replace with your EmailJS template ID
-        {
-          from_name: form.name,
-          to_name: "Nirbikar",
-          from_email: form.email,
-          to_email: "nirbikar05@gmail.com",
-          message: form.message,
-        },
-        "YOUR_PUBLIC_KEY" // Replace with your EmailJS public key
-      )
-      .then(
-        () => {
-          setLoading(false);
-          setFormStatus({
-            type: "success",
-            message: "Thank you for your message. I will get back to you soon!",
-          });
-
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-          setFormStatus({
-            type: "error",
-            message: "Something went wrong. Please try again.",
-          });
-        }
-      );
+    try {
+      await sendContactMessage(form);
+      setFormStatus({
+        type: "success",
+        message: "Thank you for your message. I will get back to you soon!",
+      });
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+      setFormStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
